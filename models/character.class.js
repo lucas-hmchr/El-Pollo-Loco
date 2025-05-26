@@ -127,7 +127,7 @@ class Character extends MovableObject {
     }
 
     handleJump() {
-        if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) this.jump()
+        if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) this.jump(), this.handleJumpSound(), this.resetMovementStop();
     }
 
     handleAnimation() {
@@ -198,5 +198,9 @@ class Character extends MovableObject {
             this.stopSound(this.snoringSound);
             this.snoringSound.currentTime = 0;
         }
+    }
+
+    handleJumpSound() {
+        this.playSound(this.jumpSound)
     }
 }
