@@ -13,3 +13,11 @@ function muteGame() {
     changeIcon(muteBtnIcon, './assets/icons/mute.svg');
     gameIsMute = true;
 }
+
+function playSound(sound) {
+    if(!gameIsMute)sound.play();
+}
+
+function stopSound(sound) {
+    sound.pause();
+}

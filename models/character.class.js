@@ -183,6 +183,7 @@ class Character extends MovableObject {
     hurtCharacter() {
         if (this.world.gameRunning) {
             this.applyDamage(5);
+            this.resetMovementStop();
             if (!this.isDead() && !this.world.isMute) this.hurtSound.play()
         }
     }
@@ -193,14 +194,14 @@ class Character extends MovableObject {
 
     handleSnoring(isSleeping) {
         if (isSleeping && this.snoringSound.paused && this.world.gameRunning) {
-            this.playSound(this.snoringSound)
+            playSound(this.snoringSound)
         } else if (!isSleeping && !this.snoringSound.paused) {
-            this.stopSound(this.snoringSound);
+            stopSound(this.snoringSound);
             this.snoringSound.currentTime = 0;
         }
     }
 
     handleJumpSound() {
-        this.playSound(this.jumpSound)
+        playSound(this.jumpSound)
     }
 }

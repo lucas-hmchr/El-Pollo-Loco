@@ -149,12 +149,4 @@ class MovableObject extends DrawableObject {
         this.movementStop = null;
     }
 
-    playSound(sound) {
-        sound.play();
-    }
-
-    stopSound(sound) {
-        sound.pause();
-    }
-
 }

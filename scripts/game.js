@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let gameIsMute = false;
+let firstRoundOver = false;
 
 /**
  * Initializes the canvas game.
@@ -68,6 +70,7 @@ function displayWinScreen(win){
 function restartGame() {
     endScreen.classList.add('d-none');
     // if (world) world.stop();
+    if(world) world.stopBackgroundMusic();
     startGame();
 }
 
@@ -97,9 +100,10 @@ function goBackToMainMenu() {
     startScreen.classList.remove('d-none');
     canvas.classList.add('d-none');
     endScreen.classList.add('d-none');
+    world.stopBackgroundMusic();
     init();
 }
 
 function stopSounds(){
-    world.character.stopSnoring();
+    
 }

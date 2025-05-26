@@ -8,9 +8,6 @@ let controlBtns = document.getElementById('controlButtons');
 // const muteBtnIcon = document.getElementById('muteBtnIcon');
 // const instructionsBtn = document.getElementById('instructionsBtn');
 
-let gameIsMute = false;
-let firstRoundOver = false;
-
 /**
  * Initializes the page.
  * - StartScreen template gets added into the startScreen Container.
