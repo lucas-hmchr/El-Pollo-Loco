@@ -109,8 +109,6 @@ class Character extends MovableObject {
         }, 150);
     }
 
-    //******************************//
-
     handleMovement() {
         this.handleMoveSideways();
         this.handleJump();
@@ -131,8 +129,6 @@ class Character extends MovableObject {
     handleJump() {
         if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) this.jump()
     }
-
-    //******************************//
 
     handleAnimation() {
         this.handleStandingAnimation();
@@ -157,13 +153,13 @@ class Character extends MovableObject {
     }
 
     handleSleepingAnimation() {
-        const isSleeping = this.world.gameRunning && !this.isDead() && (this.movementStop && (new Date().getTime() - this.movementStop) >= 3000);
-        this.startSnoring(isSleeping);
+        const now = new Date().getTime();
+        let isSleeping = (this.movementStop && (now - this.movementStop) >= 3000);
+        this.handleSnoring(isSleeping);
 
-        if (isSleeping) {
+        if (isSleeping && this.world.gameRunning) {
             this.playAnimation(this.IMAGES_SLEEPING);
         }
-
     }
 
     handleJumpAnimation() {
@@ -195,17 +191,12 @@ class Character extends MovableObject {
         return this.isColliding(enemy) && this.isAboveGround() && this.speedY < 0 && !(enemy instanceof Endboss);
     }
 
-    startSnoring(isSleeping) {
-        if (isSleeping && this.snoringSound.paused) {
-            this.snoringSound.play();
+    handleSnoring(isSleeping) {
+        if (isSleeping && this.snoringSound.paused && this.world.gameRunning) {
+            this.playSound(this.snoringSound)
         } else if (!isSleeping && !this.snoringSound.paused) {
-            this.stopSnoring();
+            this.stopSound(this.snoringSound);
             this.snoringSound.currentTime = 0;
         }
     }
-
-    stopSnoring() {
-        this.snoringSound.pause();
-    }
-
 }
