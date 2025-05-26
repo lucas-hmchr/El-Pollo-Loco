@@ -27,6 +27,7 @@ class MovableObject extends DrawableObject {
     deathDate;
     gravityIntervalId;
     movementStop;
+    world;
 
     moveRight() {
         this.x += this.speed;
@@ -140,7 +141,7 @@ class MovableObject extends DrawableObject {
             this.y = 1000;
         }, timeout)
     }
-    
+
     setMovementStop() {
         if (!this.movementStop) this.movementStop = new Date().getTime();
     }

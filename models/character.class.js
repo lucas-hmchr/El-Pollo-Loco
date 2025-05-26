@@ -84,7 +84,7 @@ class Character extends MovableObject {
         '../assets/2_character_pepe/5_dead/D-57.png',
     ];
 
-    world;
+
 
     constructor() {
         super().loadImage('../assets/2_character_pepe/1_idle/idle/I-1.png');
@@ -184,7 +184,7 @@ class Character extends MovableObject {
         if (this.world.gameRunning) {
             this.applyDamage(5);
             this.resetMovementStop();
-            if (!this.isDead() && !this.world.isMute) this.hurtSound.play()
+            if (!this.isDead() && !this.world.isMute) playSound(this.hurtSound)
         }
     }
 

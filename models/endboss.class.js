@@ -58,6 +58,8 @@ class Endboss extends MovableObject {
         '../assets/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
+    attackSound = new Audio('../assets/sounds/chicken/rooster-attack.mp3');
+
     constructor() {
         super().loadImage(this.IMAGES_WALK[0]);
         this.loadImages(this.IMAGES_WALK)
@@ -92,7 +94,7 @@ class Endboss extends MovableObject {
 
     handleWalkAnimation() {
         if (this.isWalking) {
-                this.playAnimation(this.IMAGES_WALK)
+            this.playAnimation(this.IMAGES_WALK)
         }
     }
 
@@ -135,7 +137,7 @@ class Endboss extends MovableObject {
                 this.otherDirection = true;
             } else if (this.distance() <= -100) {
                 this.moveLeft(false);
-            } 
+            }
         }, 800);
     }
 }

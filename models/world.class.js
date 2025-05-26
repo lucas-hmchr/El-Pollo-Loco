@@ -11,6 +11,7 @@ class World {
     animationFrameId;
 
     backgroundMusic = new Audio('../assets/sounds/background-music.mp3');
+    chickenAttackSound = new Audio('../assets/sounds/chicken/chicken-attack.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -112,7 +113,8 @@ class World {
             this.character.availableBottles -= 1;
             this.level.statusBars[2].setPercentage(this.level.statusBars[2].percentage -= 10);
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
-            this.throwableObjects.push(bottle)
+            this.throwableObjects.push(bottle);
+            this.character.resetMovementStop();
         }
     }
 
@@ -129,6 +131,7 @@ class World {
             if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy))) {
                 this.character.hurtCharacter();
                 this.level.statusBars[0].setPercentage(this.character.life);
+                this.playAttackSound(enemy)
             }
         });
     }
@@ -219,6 +222,16 @@ class World {
 
     stopBackgroundMusic() {
         stopSound(this.backgroundMusic);
+    }
+
+    playAttackSound(enemy) {
+        if (!gameIsMute && this.gameRunning) {
+            if (enemy instanceof Endboss) {
+                playSound(this.endboss.attackSound)
+            } else {
+                playSound(this.chickenAttackSound);
+            }
+        }
     }
 
 }
