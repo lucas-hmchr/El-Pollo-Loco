@@ -14,6 +14,7 @@ let controlBtns = document.getElementById('controlButtons');
  */
 function init() {
     startScreen.innerHTML = startScreenMenuTemplate();
+    setMuteIcon();
 };
 
 /**

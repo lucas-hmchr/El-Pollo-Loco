@@ -3,15 +3,20 @@ function changeIcon(element, path) {
 }
 
 function loudGame() {
-    const muteBtnIcon = document.getElementById('muteBtnIcon');
-    changeIcon(muteBtnIcon, './assets/icons/sound.svg');
     gameIsMute = false;
+    localStorage.setItem(MUTE_KEY, JSON.stringify(gameIsMute));
+    setMuteIcon()
 }
 
 function muteGame() {
-    const muteBtnIcon = document.getElementById('muteBtnIcon');
-    changeIcon(muteBtnIcon, './assets/icons/mute.svg');
     gameIsMute = true;
+    localStorage.setItem(MUTE_KEY, JSON.stringify(gameIsMute));
+    setMuteIcon()
+}
+
+function setMuteIcon() {
+    const muteBtnIcon = document.getElementById('muteBtnIcon');
+    gameIsMute ? changeIcon(muteBtnIcon, '../assets/icons/mute.svg') :  changeIcon(muteBtnIcon, '../assets/icons/sound.svg');
 }
 
 function playSound(sound) {

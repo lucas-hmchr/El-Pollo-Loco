@@ -1,8 +1,10 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let gameIsMute = false;
 let firstRoundOver = false;
+const MUTE_KEY = 'gameIsMute';
+let gameIsMute = JSON.parse(localStorage.getItem(MUTE_KEY)) || false;
+
 
 /**
  * Initializes the canvas game.
@@ -105,5 +107,9 @@ function goBackToMainMenu() {
 }
 
 function stopSounds(){
+    
+}
+
+function setMuteOption() {
     
 }
