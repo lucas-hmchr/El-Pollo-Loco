@@ -157,15 +157,14 @@ class Character extends MovableObject {
     }
 
     handleSleepingAnimation() {
-        const now = new Date().getTime();
-        let isSleeping = (this.movementStop && (now - this.movementStop) >= 3000);
+        const isSleeping = this.world.gameRunning && !this.isDead() && (this.movementStop && (new Date().getTime() - this.movementStop) >= 3000);
         this.startSnoring(isSleeping);
 
         if (isSleeping) {
             this.playAnimation(this.IMAGES_SLEEPING);
         }
-    }
 
+    }
 
     handleJumpAnimation() {
         if (this.isAboveGround()) {
@@ -174,7 +173,7 @@ class Character extends MovableObject {
     }
 
     handleHurtAnimation() {
-        if (this.isHurt()) {
+        if (this.isHurt() && this.world.gameRunning) {
             this.playAnimation(this.IMAGES_HURTING);
         }
     }
@@ -186,8 +185,10 @@ class Character extends MovableObject {
     }
 
     hurtCharacter() {
-        this.applyDamage(5);
-        if (!this.isDead() && !this.world.isMute) this.hurtSound.play()
+        if (this.world.gameRunning) {
+            this.applyDamage(5);
+            if (!this.isDead() && !this.world.isMute) this.hurtSound.play()
+        }
     }
 
     inPositionToJumpKill(enemy) {
@@ -198,10 +199,13 @@ class Character extends MovableObject {
         if (isSleeping && this.snoringSound.paused) {
             this.snoringSound.play();
         } else if (!isSleeping && !this.snoringSound.paused) {
-            this.snoringSound.pause();
+            this.stopSnoring();
             this.snoringSound.currentTime = 0;
         }
     }
 
+    stopSnoring() {
+        this.snoringSound.pause();
+    }
 
 }

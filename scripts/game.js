@@ -55,6 +55,7 @@ function changeGameSound() {
  */
 function displayWinScreen(win){
     hideControlButtons();
+    stopSounds();
     endScreen.classList.remove('d-none');
     endScreen.style.backgroundImage = win ? 'url("./assets/9_intro_outro_screens/game_over/game over.png")' : 'url("./assets/9_intro_outro_screens/game_over/oh no you lost!.png")';
     endScreen.innerHTML = win ? victoryTemplate() : loseTemplate();
@@ -98,4 +99,8 @@ function goBackToMainMenu() {
     canvas.classList.add('d-none');
     endScreen.classList.add('d-none');
     init();
+}
+
+function stopSounds(){
+    world.character.stopSnoring();
 }
