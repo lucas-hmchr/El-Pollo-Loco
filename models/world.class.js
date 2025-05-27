@@ -78,8 +78,13 @@ class World {
     setWorld() {
         this.character.world = this;
         this.setStatusBars();
+        this.setEndboss();
+    }
+
+    setEndboss(){
         this.endboss = this.level.enemies[this.level.enemies.length - 1];
         this.endboss.world = this;
+        this.endboss.animate();
     }
 
     setStatusBars() {
@@ -208,13 +213,6 @@ class World {
             displayWinScreen(win);
         }, 2500);
     }
-
-    // stop() {
-    //     if (this.animationFrameId) {
-    //         cancelAnimationFrame(this.animationFrameId);
-    //         this.animationFrameId = null;
-    //     }
-    // }
 
     startBackgroundMusic() {
         playSound(this.backgroundMusic);
