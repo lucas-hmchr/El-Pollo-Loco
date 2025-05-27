@@ -40,3 +40,44 @@ function openPolicy() {
     startScreen.innerHTML = policyTemplate();
 };
 
+// function resizeCanvas() {
+//     const canvas = document.getElementById('canvas');
+//     const ratio = 720 / 480;
+
+//     let width = window.innerWidth;
+//     let height = window.innerHeight;
+
+//     if (width / height > ratio) {
+//         width = height * ratio;
+//     } else {
+//         height = width / ratio;
+//     }
+
+//     canvas.style.width = `${width}px`;
+//     canvas.style.height = `${height}px`;
+//     canvas.width = 720;
+//     canvas.height = 480;
+// }
+
+// function checkOrientation() {
+//     const overlay = document.getElementById('rotationOverlay');
+//     if (window.innerWidth < window.innerHeight) {
+//         overlay.style.display = 'flex';
+//     } else {
+//         overlay.style.display = 'none';
+//     }
+// }
+
+// window.addEventListener('resize', () => {
+//     resizeCanvas();
+//     checkOrientation();
+// });
+
+// window.addEventListener('orientationchange', checkOrientation);
+
+// window.addEventListener('load', () => {
+//     resizeCanvas();
+//     checkOrientation();
+// });
+
+

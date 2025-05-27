@@ -45,6 +45,7 @@
     }
 
     & .start-button {
+        width: 215px;
         padding: 16px;
         background-color: var(--button-clr);
         border: white 3px solid;
@@ -134,6 +135,35 @@
 
         & .menu-buttons {
             gap: 12px;
+        }
+    }
+}
+
+@media (min-width: 1000px) and (orientation: landscape) and (pointer:coarse) {
+    .start-screen {
+
+        & .start-button {
+            width: auto;
+            padding: 24px;
+            background-color: var(--button-clr);
+            border: white 3px solid;
+            border-radius: 8px;
+            font-size: 3em;
+            -webkit-box-shadow: 5px 5px 28px -4px rgba(0, 0, 0, 0.62);
+            box-shadow: 5px 5px 28px -4px rgba(0, 0, 0, 0.62);
+            transition: 0.1s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: center;
+
+            &:hover {
+                scale: 1.05;
+            }
+
+            & img {
+                height: 48px;
+            }
         }
     }
 }

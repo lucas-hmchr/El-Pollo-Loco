@@ -1,6 +1,7 @@
 .control-buttons{
     display: none;
 }
+
 @media (pointer:coarse) {
     .control-buttons {
         position: absolute;
@@ -20,7 +21,7 @@
 
 
             & button {
-                width: 56px;
+                width: 7vw;
                 aspect-ratio: 1/1;
                 background-color: azure;
                 border: none;

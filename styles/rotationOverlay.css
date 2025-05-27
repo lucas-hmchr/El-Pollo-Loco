@@ -2,7 +2,33 @@
     display: none;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 1400px) and (orientation: portrait) and (pointer:coarse){
+
+    .rotation-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.763);
+        width: 100vw;
+        height: 100vh;
+        z-index: 10000;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-weight: 100;
+        font-size: 48px;
+        padding-inline: 32px;
+        text-align: center;
+
+        & img {
+            width: 200px;
+        }
+    }
+}
+
+@media (max-width: 640px) and (pointer: fine){
 
     .rotation-overlay {
         position: absolute;

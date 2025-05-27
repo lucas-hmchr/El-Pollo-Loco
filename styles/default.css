@@ -18,6 +18,7 @@ body {
     background-image: url('../assets/images/desert.jpg');
     background-position: center;
     background-size: cover;
+    overflow: hidden;
 }
 
 canvas {
@@ -40,14 +41,14 @@ button {
 .screen {
     width: 720px;
     height: 480px;
-    aspect-ratio: 720/480;
+    aspect-ratio: 3/2;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 720px) and (pointer: fine) {
     canvas {
         width: 100%;
     }
@@ -56,15 +57,31 @@ button {
         width: 100vw;
         height: auto;
     }
-}
+} 
 
-@media only screen and (max-height: 480px) {
+@media only screen and (pointer: coarse) and (orientation: landscape){
     canvas {
-        height: 100vh;
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        aspect-ratio: 3 / 2;
     }
 
     .screen {
-        width: auto;
+        width: 100vw;
         height: 100vh;
+    }
+} 
+
+@media only screen and (pointer: coarse) and (orientation: landscape) and (min-width: 720px) and (max-width: 1000px){
+    canvas {
+        max-width: 720px;
+    }
+} 
+
+@media (max-width: 1400px) and (orientation: portrait) and (pointer:coarse){
+        .screen {
+        width: 100vw;
+        height: auto;
     }
 }
