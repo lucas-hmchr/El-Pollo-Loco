@@ -6,8 +6,6 @@ const MUTE_KEY = 'gameIsMute';
 let gameIsMute = JSON.parse(localStorage.getItem(MUTE_KEY)) || false;
 let screenIsFull = false;
 
-
-
 /**
  * Initializes the canvas game.
  * - If the canvas element hasn't been set, it gets set. (is the case if the user restarts the game)
@@ -146,4 +144,33 @@ function goBackToMainMenu() {
     endScreen.classList.add('d-none');
     world.stopBackgroundMusic();
     init();
+}
+
+function toggleFullScreen() {
+    let fullscreen = document.getElementById('screen')
+    screenIsFull ? exitFullscreen() : enterFullScreen(fullscreen);
+}
+
+function enterFullScreen(element) {
+    const fullScreenBtnIcon = document.getElementById('fullScreenBtnIcon');
+    screenIsFull = true;
+    changeIcon(fullScreenBtnIcon, './assets/icons/minimize.svg')
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    }
+}
+
+function exitFullscreen() {
+    const fullScreenBtnIcon = document.getElementById('fullScreenBtnIcon');
+    screenIsFull = false;
+    changeIcon(fullScreenBtnIcon, './assets/icons/fullscreen.svg')
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }

@@ -4,6 +4,7 @@ function startScreenMenuTemplate() {
             <button id="muteBtn" class="menu-button" onclick="changeGameSound()"><img id="muteBtnIcon" src="./assets/icons/sound.svg" alt=""></button>
             <button id="instructionsBtn" class="menu-button" onclick="openInstructions()"><img src="./assets/icons/controller.svg" alt=""></button>
             <button id="policyBtn" class="menu-button" onclick="openPolicy()"><img src="./assets/icons/policy.svg" alt=""></button>
+            <button id="fullscreenBtn" class="menu-button" onclick="toggleFullScreen()"><img id="fullScreenBtnIcon" src="./assets/icons/fullscreen.svg" alt=""></button>
         </div>
 
         <button id="startButton" class="start-button" onclick="firstRoundOver ? restartGame() : startGame()">Start Game <img src="./assets/icons/sombrero.svg" alt=""></button>
