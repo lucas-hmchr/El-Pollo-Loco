@@ -45,7 +45,7 @@ class Chick extends MovableObject {
     }
 
     walk() {
-        if (this.x < 200) {
+        if (this.x < 250) {
             this.moveRight();
             this.otherDirection = true;
         }
