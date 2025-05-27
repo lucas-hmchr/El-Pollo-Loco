@@ -13,6 +13,12 @@ class Bottle extends DrawableObject{
         right: 10,
     }
 
+    /**
+     * Loads the image of the given path and sets a random position inbetween the minimum and maximum x coordinates.
+     * @param {String} imagePath - Path of the image.
+     * @param {Number} minx - Minimum x-coordinate.
+     * @param {Number} maxx - Maximum x-coordinate.
+     */
     constructor(imagePath, minx, maxx) {
         super().loadImage(imagePath);
         this.x = Math.random() * (maxx - minx + 1) + minx;        

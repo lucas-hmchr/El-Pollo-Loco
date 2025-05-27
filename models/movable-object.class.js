@@ -29,17 +29,27 @@ class MovableObject extends DrawableObject {
     movementStop;
     world;
 
+    /**
+     * Moves object to the right.
+     */
     moveRight() {
         this.x += this.speed;
         this.otherDirection = false;
     }
 
-
+    /**
+     * Moves object to the right.
+     * @param {Boolean} otherDirection - Tells if image needs to be facing the opposite direction.
+     */
     moveLeft(otherDirection) {
         this.x -= this.speed;
         this.otherDirection = otherDirection;
     }
 
+    /**
+     * Runs a repeated animation with passed images. 
+     * @param {Array} images - Array with strings as paths for images.
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -47,6 +57,11 @@ class MovableObject extends DrawableObject {
         this.currentImage++
     };
 
+    /**
+     * Run a animation with passend images a single time.
+     * @param {Array} images - Array with strings as paths for images.
+     * @param {Number} totalDuration - Total time of animation.
+     */
     playAnimationOnce(images, totalDuration) {
         this.currentImage = 0;
         const timePerFrame = totalDuration / images.length;
@@ -61,6 +76,9 @@ class MovableObject extends DrawableObject {
         }, timePerFrame);
     }
 
+    /**
+     * Activate gravitation for the object.
+     */
     applyGravity() {
         this.gravityIntervalId = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -70,6 +88,9 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     };
 
+    /**
+     * Deactivate gravitation for the object.
+     */
     removeGravity() {
         if (this.gravityIntervalId !== null) {
             clearInterval(this.gravityIntervalId);
@@ -77,6 +98,10 @@ class MovableObject extends DrawableObject {
         }
     };
 
+    /**
+     * Checks if the object is above the ground.
+     * @returns {Boolean} - True, if is above ground.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -85,10 +110,18 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Make object jump.
+     */
     jump() {
         this.speedY = 30;
     }
 
+    /**
+     * Check if object collides with another object.
+     * @param {MovableObject} mo - Other movable object. 
+     * @returns {Boolean} - True if collision gets detected.
+     */
     isColliding(mo) {
         if (!mo.isDead()) {
             return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -100,14 +133,26 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Returns the health points.
+     * @returns {Number} - Health points
+     */
     characterLife() {
         return this.life;
     }
 
+    /**
+     * Returns if object has health points.
+     * @returns {Boolean} - True if object is dead.
+     */
     isDead() {
         return this.life == 0;
     }
 
+    /**
+     * Deal damage.
+     * @param {Number} damage - Amount of damage to be applied.
+     */
     applyDamage(damage) {
         this.life -= damage;
         if (this.life < 0) {
@@ -117,17 +162,27 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Kill object instantly by setting health points to 0.
+     */
     kill() {
         this.life = 0;
         this.deathDate = new Date().getTime();
     }
 
+    /**
+     * Check if object has taken damage within the last 2 seconds.
+     * @returns {Boolean} - True if damage has been applied in the last 2 seconds.
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 2;
     }
 
+    /**
+     * Remove the body of the object 1 second after its death.
+     */
     removeBody() {
         if (this.deathDate && this.deathDate + 1000 < new Date().getTime()) {
             this.width = 0;
@@ -136,16 +191,26 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Moves the object below the screen after a given time.
+     * @param {Number} timeout - Time in milliseconds.
+     */
     moveObjBelowCanvas(timeout) {
         setTimeout(() => {
             this.y = 1000;
         }, timeout)
     }
 
+    /**
+     * Sets a timestamp when the object stopped moving.
+     */
     setMovementStop() {
         if (!this.movementStop) this.movementStop = new Date().getTime();
     }
 
+    /**
+     * Resets the timestamp.
+     */
     resetMovementStop() {
         this.movementStop = null;
     }

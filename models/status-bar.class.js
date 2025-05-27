@@ -39,6 +39,10 @@ class StatusBar extends DrawableObject {
     statusType;
     world;
 
+    /**
+     * Creates a new statusbar of specific type.
+     * @param {string} statusType - Type of statusbar ('health', 'coins', 'bottles', 'endboss')
+     */
     constructor(statusType) {
         super();
         this.statusType = statusType;
@@ -47,6 +51,9 @@ class StatusBar extends DrawableObject {
         this.height = 60;
     }
 
+    /**
+     * Initializes the statusbar based of the given type and sets a starting percentage.
+     */
     initStatusBar() {
         if (this.statusType === 'health') {
             this.loadHealthBar();
@@ -63,31 +70,46 @@ class StatusBar extends DrawableObject {
         }
     }
 
+    /**
+     * Loads images and position for health bar.
+     */
     loadHealthBar() {
         this.loadImages(this.IMAGES.health);
         this.x = 20;
         this.y = 0; 
     }
 
+    /**
+     * Loads images and position for coin bar.
+     */
     loadCoinBar() {
         this.loadImages(this.IMAGES.coins);
         this.y = 45;
         this.x = 20;
     }
 
+    /**
+     * Loads images and position for bottle bar.
+     */
     loadBottleBar() {
         this.loadImages(this.IMAGES.bottles);
         this.y = 90;
         this.x = 20;
     }
 
+    /**
+     * Loads images and position for endboss health bar.
+     */
     loadEndbossBar() {
         this.loadImages(this.IMAGES.endboss);
         this.y = 10;
-        // this.x = this.world.level.enemies[this.world.level.enemies.length + 1].x;
         this.x = 490;
     }
 
+    /**
+     * Sets the percentage of the bar and adjusts its image.
+     * @param {number} percentage - Value between 0 and 100.
+     */
     setPercentage(percentage) {
         percentage > 0 ? this.percentage = percentage : this.percentage = 0;
         const imagesForType = this.IMAGES[this.statusType] || [];
@@ -95,6 +117,11 @@ class StatusBar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
+    /**
+     * 
+     * @param {number} percentage - Current percentage.
+     * @returns {number} - Index of the fitting image.
+     */
     resolveImageIndex(percentage) {
         if (percentage == 100) {
             return 5;

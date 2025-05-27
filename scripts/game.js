@@ -20,6 +20,9 @@ function initGame() {
     initControlButtons();
 }
 
+/**
+ * 
+ */
 function initControlButtons() {
     showControlButtons();
     bindBtnsPressEvent();
@@ -49,6 +52,9 @@ window.addEventListener('keyup', (e) => {
     if (e.keyCode === 68) keyboard.D = false;
 });
 
+/**
+ * Bind actions to touch control buttons of the mobile screen.
+ */
 function bindBtnsPressEvent() {
     document.getElementById('walkLeftBtn').addEventListener('touchstart', (e) => {
         e.preventDefault();
@@ -146,11 +152,18 @@ function goBackToMainMenu() {
     init();
 }
 
+/**
+ * Decide wether the screen elements gets minimized or set to fullscreen.
+ */
 function toggleFullScreen() {
     let fullscreen = document.getElementById('screen')
     screenIsFull ? exitFullscreen() : enterFullScreen(fullscreen);
 }
 
+/**
+ * Set the given element to fullscreen.
+ * @param {HTMLElement} element
+ */
 function enterFullScreen(element) {
     const fullScreenBtnIcon = document.getElementById('fullScreenBtnIcon');
     screenIsFull = true;
@@ -164,6 +177,9 @@ function enterFullScreen(element) {
     }
 }
 
+/**
+ * Minimize from fullscreen.
+ */
 function exitFullscreen() {
     const fullScreenBtnIcon = document.getElementById('fullScreenBtnIcon');
     screenIsFull = false;

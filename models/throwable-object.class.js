@@ -27,6 +27,12 @@ class ThrowableObject extends MovableObject {
 
     flyingBottleSound = new Audio('../assets/sounds/flying-bottle.mp3');
 
+    /**
+     * Creates a new throwable object.
+     * @param {number} x - Starting point on x-axis.
+     * @param {number} y - Starting point on y-axis.
+     * @param {Character} character - Chaacter throwing the object.
+     */
     constructor(x, y, character) {
         super().loadImage('../assets/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_THROWING);
@@ -39,6 +45,9 @@ class ThrowableObject extends MovableObject {
         this.throw()
     }
 
+    /**
+     * Starts the flying movement of the bottle, applies gravity to it and starts the animation.
+     */
     throw() {
         this.availableBottles -= 1;
         this.speedY = 30;
@@ -50,6 +59,9 @@ class ThrowableObject extends MovableObject {
         this.isFlying = true;
     }
 
+    /**
+     * Animates the flying bottle.
+     */
     throwAnimation() {
         playSound(this.flyingBottleSound);
         setInterval(() => {
@@ -59,12 +71,18 @@ class ThrowableObject extends MovableObject {
         }, 75)
     }
 
+    /**
+     * Animates the bottle after colliding.
+     */
     splashAnimation() {
         this.playAnimationOnce(this.IMAGES_SPLASHING, 800)
         this.moveObjBelowCanvas(800);
 
     };
 
+    /**
+     * Cancles the flying by removing gravity and starts the splash animation.
+     */
     stopThrow() {
         stopSound(this.flyingBottleSound);
         this.removeGravity();

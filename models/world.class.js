@@ -13,7 +13,11 @@ class World {
     backgroundMusic = new Audio('../assets/sounds/background-music.mp3');
     chickenAttackSound = new Audio('../assets/sounds/chicken/chicken-attack.mp3');
 
-
+    /**
+     * 
+     * @param {HTMLElement} canvas - Canvas thats beeing used to draw the Game.
+     * @param {Keyboard} keyboard - Keyboard beeing used by user.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -27,7 +31,9 @@ class World {
         this.startBackgroundMusic();
     }
 
-
+    /**
+     * Draw the necessary images on the canvas.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -36,18 +42,15 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects)
         this.addObjectsToMap(this.level.clouds)
 
-        // space for fixed Obj
         this.ctx.translate(-this.camera_x, 0)
         this.addObjectsToMap(this.level.statusBars)
         this.ctx.translate(this.camera_x, 0)
-
 
         this.addObjectsToMap(this.level.enemies)
         this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.level.bottles)
         this.addObjectsToMap(this.level.coins)
         this.addToMap(this.character)
-
 
         this.ctx.translate(-this.camera_x, 0)
 
@@ -57,12 +60,20 @@ class World {
         });
     }
 
+    /**
+     * Loop trough the given array and draw each objective on the canvas.
+     * @param {Array} objects - Array including parts of the level.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         })
     }
 
+    /**
+     * Draw the given object onto the canvas and flip the image if necessary.
+     * @param {MovableObject} mo - Object that should be drawn.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo)
@@ -75,24 +86,38 @@ class World {
         }
     }
 
+    /**
+     * Set world variable in objects to make world accessible and call functions that do so.
+     */
     setWorld() {
         this.character.world = this;
         this.setStatusBars();
         this.setEndboss();
     }
 
-    setEndboss(){
+    /**
+     * Define the endboss in world and set the world variable in endboss.
+     * - The endboss gets animated in the end of the function and not inside the object to make sure world has been set and can be accessed.
+     */
+    setEndboss() {
         this.endboss = this.level.enemies[this.level.enemies.length - 1];
         this.endboss.world = this;
         this.endboss.animate();
     }
 
+    /**
+     * Set the world variable in each of the statusbars.
+     */
     setStatusBars() {
         this.level.statusBars.forEach((bar) => {
             bar.world = this;
         })
     }
 
+    /**
+     * Flip the image of an object on the x-axis.
+     * @param {MovableObject} mo - Object that will be flipped.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -100,11 +125,18 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * Flip a flipped image back to its stored position
+     * @param {MovableObject} mo - Object that will be restored. 
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
+    /**
+     * Call several functions that check states of the game.
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -113,6 +145,11 @@ class World {
         }, 100)
     }
 
+    /**
+     * Check if the event is beeing triggered and create the throwable obj if the character has the capacity.
+     * - Statusbar gets adjusted.
+     * - Movementstop of the character gets reseted.
+     */
     checkThrowObjects() {
         if (this.keyboard.D && this.character.availableBottles >= 1) {
             this.character.availableBottles -= 1;
@@ -123,6 +160,9 @@ class World {
         }
     }
 
+    /**
+     * Call functions to check collisions between objects.
+     */
     checkCollisions() {
         this.checkCharacterCollision();
         this.checkBottleCollision();
@@ -131,6 +171,11 @@ class World {
         this.checkCharacterJumpingCollision();
     }
 
+    /**
+     * Check if the character is colliding with an enemy on the ground.
+     * - Adjust statusbar.
+     * - Play a sound.
+     */
     checkCharacterCollision() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy))) {
@@ -141,7 +186,9 @@ class World {
         });
     }
 
-
+    /**
+     * Check if the character collides with one of the enemies from on top (jump) and kill the enemy if thats the case.
+     */
     checkCharacterJumpingCollision() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.inPositionToJumpKill(enemy)) {
@@ -150,6 +197,9 @@ class World {
         });
     }
 
+    /**
+     * If a bottle hits an enemy deal damage or kill the enemy.
+     */
     checkBottleCollision() {
         this.level.enemies.forEach((enemy) => {
             if (this.bottleHitsEnemy(enemy)) {
@@ -159,6 +209,11 @@ class World {
         });
     }
 
+    /**
+     * Check if a throwable Object collides with an enemy.
+     * @param {MovableObject} enemy - Object from the enemies array.
+     * @returns {Boolean} - Enemy got hit or not.
+     */
     bottleHitsEnemy(enemy) {
         return this.throwableObjects.some((bottle) => {
             if (bottle.isColliding(enemy)) {
@@ -168,6 +223,10 @@ class World {
         });
     }
 
+    /**
+     * If an item gets touched call the collect function.
+     * @param {Array} objects - Array of collectables (coins and bottles).
+     */
     checkCharacterCollection(objects) {
         objects.forEach((object) => {
             if (this.character.isTouchingCollectable(object)) {
@@ -177,36 +236,62 @@ class World {
         });
     }
 
+    /**
+     * Collects a bottle.
+     * @param {Bottle} object - Bottle object
+     */
     collectBottle(object) {
         this.level.statusBars[2].setPercentage(this.level.statusBars[2].percentage += 10);
         this.character.availableBottles += 1;
         this.removeObject(object, this.level.bottles);
     }
 
+    /**
+     * Collects a coin.
+     * @param {Coin} object - Coin object.
+     */
     collectCoin(object) {
         this.level.statusBars[1].setPercentage(this.level.statusBars[1].percentage += 20);
         this.character.collectedCoins += 1;
         this.removeObject(object, this.level.coins);
     }
 
+    /**
+     * Remove an object from the list of the level.
+     * @param {DrawableObject} object - Object to be removed from the level.
+     * @param {Array} list - List of objects of a level.
+     */
     removeObject(object, list) {
         list.splice(list.findIndex((element) => element.id == object.id), 1);
     }
 
+    /**
+     * Call functions to check states of the game.
+     */
     checkState() {
         this.checkEndbossStart();
         this.checkGameEnd();
     }
 
+    /**
+     * Check the position of the character to start the moving of the endboss.
+     */
     checkEndbossStart() {
         if (this.character.x >= 1500 && !this.endboss.isWalking) this.endboss.startWalking();
     }
 
+    /**
+     * Check if either the endboss or the character is dead and end the game.
+     */
     checkGameEnd() {
         if (this.character.isDead() && this.gameRunning) this.gameOver(false);
         if (this.endboss.isDead() && this.gameRunning) this.gameOver(true);
     }
 
+    /**
+     * Stop the game and display an end screen.
+     * @param {Boolean} win - True if character wins. 
+     */
     gameOver(win) {
         this.gameRunning = false;
         setTimeout(() => {
@@ -214,14 +299,24 @@ class World {
         }, 2500);
     }
 
+    /**
+     * Start playing the backgroundmusic of the game.
+     */
     startBackgroundMusic() {
         playSound(this.backgroundMusic);
     }
 
+    /**
+     * Stop playing the backgroundmusic of the game.
+     */
     stopBackgroundMusic() {
         stopSound(this.backgroundMusic);
     }
 
+    /**
+     * Play an attacking sound of an anamy depending on instance of the enemy, but only when the game is running and isnt muted.
+     * @param {Endboss|Chicken|Chick} enemy - Object of enemy thats attacking.
+     */
     playAttackSound(enemy) {
         if (!gameIsMute && this.gameRunning) {
             if (enemy instanceof Endboss) {

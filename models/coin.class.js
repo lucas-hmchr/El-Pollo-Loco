@@ -22,8 +22,8 @@ class Coin extends MovableObject {
      * - Load the necessary images.
      * - Set a random position based on the params.
      * - Start the animation.
-     * @param {Number} minx - Minimum x-coordinate
-     * @param {Number} maxx - Maximum x-coordinate
+     * @param {Number} minx - Minimum x-coordinate.
+     * @param {Number} maxx - Maximum x-coordinate.
      */
     constructor(minx, maxx) {
         super().loadImage(this.IMAGES[0]);

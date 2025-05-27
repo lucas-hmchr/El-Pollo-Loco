@@ -60,6 +60,9 @@ class Endboss extends MovableObject {
 
     attackSound = new Audio('../assets/sounds/chicken/rooster-attack.mp3');
 
+    /**
+     * Constructs the endboss object, loads images for all animation states, sets speed and initial position.
+     */
     constructor() {
         super().loadImage(this.IMAGES_WALK[0]);
         this.loadImages(this.IMAGES_WALK)
@@ -71,12 +74,18 @@ class Endboss extends MovableObject {
         this.x = 2000;
     }
 
+    /**
+     * Starts the animation loop for the endboss, checking animation states regularly.
+     */
     animate() {
         setInterval(() => {
             this.handleAnimation();
         }, 200);
     }
 
+    /**
+     * Calls specific handlers to determine and play the correct animation depending on the endboss' current state.
+     */
     handleAnimation() {
         this.handleStandingAnimation();
         this.handleWalkAnimation();
@@ -85,30 +94,45 @@ class Endboss extends MovableObject {
         this.handleDeathAnimation();
     }
 
+    /**
+     * Plays idle animation if the endboss has not yet started moving.
+     */
     handleStandingAnimation() {
         if (this.x === 2000) {
             this.playAnimation(this.IMAGES_ALERT);
         }
     }
 
+    /**
+     * Plays walking animation if the endboss is currently moving.
+     */
     handleWalkAnimation() {
         if (this.isWalking) {
             this.playAnimation(this.IMAGES_WALK)
         }
     }
 
+    /**
+     * Plays attacking animation if the endboss is currently colliding with the character.
+     */
     handleAttackingAnimation() {
         if (this.world.character.isColliding(this)) {
             this.playAnimation(this.IMAGES_ATTACK)
         }
     }
 
+    /**
+     * Plays hurt animation if the endboss has currently been hit .
+     */
     handleHurtAnimation() {
         if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT)
         }
     }
 
+    /**
+     * Plays death animation if the endboss is dead and stops walking.
+     */
     handleDeathAnimation() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -117,6 +141,9 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Starts walking behavior after a delay to allow idle state first.
+     */
     startWalking() {
         setTimeout(() => {
             this.isWalking = true;
@@ -124,10 +151,17 @@ class Endboss extends MovableObject {
         }, 1200);
     }
 
+    /**
+     * Calculates the horizontal distance between the enemy and the character.
+     * @returns {Number} - The difference in x-coordinate.
+     */
     distance() {
         return this.world.character.x - this.x
     }
 
+    /**
+     * Makes the enemy walk towards the character if distance is large enough.
+     */
     walk() {
         this.walkInterval = setInterval(() => {
             if (this.isDead()) return;

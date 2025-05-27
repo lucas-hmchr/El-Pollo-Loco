@@ -84,8 +84,10 @@ class Character extends MovableObject {
         '../assets/2_character_pepe/5_dead/D-57.png',
     ];
 
-
-
+    /**
+     * Initializes the character by loading all necessary images,
+     * applying gravity, and starting animation loops.
+     */
     constructor() {
         super().loadImage('../assets/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_STANDING);
@@ -99,6 +101,9 @@ class Character extends MovableObject {
         this.animate()
     }
 
+    /**
+     * Starts continuous movement and animation updates.
+     */
     animate() {
         setInterval(() => {
             this.handleMovement();
@@ -109,11 +114,18 @@ class Character extends MovableObject {
         }, 150);
     }
 
+    /**
+     * Handles character input for movement and jumping.
+     */
     handleMovement() {
         this.handleMoveSideways();
         this.handleJump();
     }
 
+    /**
+     * Moves the character left or right based on keyboard input.
+     * Updates the camera position to follow the character.
+     */
     handleMoveSideways() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isDead()) {
             this.resetMovementStop()
@@ -126,10 +138,16 @@ class Character extends MovableObject {
         this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * Makes the character jump if the jump key is pressed.
+     */
     handleJump() {
         if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) this.jump(), this.handleJumpSound(), this.resetMovementStop();
     }
 
+    /**
+     * Executes all animation types depending on character state.
+     */
     handleAnimation() {
         this.handleStandingAnimation();
         this.handleSleepingAnimation();
@@ -139,12 +157,18 @@ class Character extends MovableObject {
         this.handleDeathAnimation();
     }
 
+    /**
+     * Plays the walking animation if character is moving.
+     */
     handleWalkAnimation() {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING)
         }
     }
 
+    /**
+     * Plays the standing animation when no movement is detected.
+     */
     handleStandingAnimation() {
         if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
             this.setMovementStop()
@@ -152,6 +176,10 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays the sleeping animation if the character is idle for 3 seconds.
+     * Also manages snoring sound.
+     */
     handleSleepingAnimation() {
         const now = new Date().getTime();
         let isSleeping = (this.movementStop && (now - this.movementStop) >= 3000);
@@ -162,24 +190,36 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays the jumping animation while the character is airborne.
+     */
     handleJumpAnimation() {
         if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING)
         }
     }
 
+    /**
+     * Plays the hurt animation if the character was recently hit.
+     */
     handleHurtAnimation() {
         if (this.isHurt() && this.world.gameRunning) {
             this.playAnimation(this.IMAGES_HURTING);
         }
     }
 
+    /**
+     * Plays the death animation when the character's life reaches zero.
+     */
     handleDeathAnimation() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
         }
     }
 
+    /**
+     * Applies damage to the character and plays hurt sound if not dead.
+     */
     hurtCharacter() {
         if (this.world.gameRunning) {
             this.applyDamage(5);
@@ -188,10 +228,20 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the character is in a position to kill an enemy by jumping on it.
+     * Endboss is excluded.
+     * @param {MovableObject} enemy - The enemy object to test against.
+     * @returns {Boolean} - True if in position to kill by jump.
+     */
     inPositionToJumpKill(enemy) {
         return this.isColliding(enemy) && this.isAboveGround() && this.speedY < 0 && !(enemy instanceof Endboss);
     }
 
+    /**
+     * Manages the snoring sound state depending on whether the character is sleeping.
+     * @param {Boolean} isSleeping - Whether the character is in sleeping state.
+     */
     handleSnoring(isSleeping) {
         if (isSleeping && this.snoringSound.paused && this.world.gameRunning) {
             playSound(this.snoringSound)
@@ -201,6 +251,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays the character's jump sound.
+     */
     handleJumpSound() {
         playSound(this.jumpSound)
     }
