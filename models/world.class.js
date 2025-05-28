@@ -9,6 +9,8 @@ class World {
     endboss;
     gameRunning = true;
     animationFrameId;
+    lastThrowTime = 0;
+    throwCooldownTime = 800;
 
     backgroundMusic = new Audio('../assets/sounds/background-music.mp3');
     chickenAttackSound = new Audio('../assets/sounds/chicken/chicken-attack.mp3');
@@ -142,22 +144,32 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkState();
-        }, 100)
+        }, 10)
     }
 
     /**
-     * Check if the event is beeing triggered and create the throwable obj if the character has the capacity.
+     * Checks if hte character is able to throw a bottle.
+     * - Executes the throwObject function if its the case.
+     */
+    checkThrowObjects() {
+        const now = Date.now();
+        if (this.keyboard.D && this.character.availableBottles >= 1 && now - this.lastThrowTime >= this.throwCooldownTime) {
+            this.lastThrowTime = now;
+            this.throwObject();
+        }
+    }
+
+    /**
+     * Creates a new bottle and adjusts the amount of bottles left.
      * - Statusbar gets adjusted.
      * - Movementstop of the character gets reseted.
      */
-    checkThrowObjects() {
-        if (this.keyboard.D && this.character.availableBottles >= 1) {
+    throwObject() {
             this.character.availableBottles -= 1;
             this.level.statusBars[2].setPercentage(this.level.statusBars[2].percentage -= 10);
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
             this.throwableObjects.push(bottle);
             this.character.resetMovementStop();
-        }
     }
 
     /**

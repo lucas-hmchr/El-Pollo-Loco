@@ -6,10 +6,10 @@ class Chick extends MovableObject {
     x = 200 + (Math.random() * 1500);
 
     offset = {
-        top: -30,
+        top: 10,
         bottom: 0,
-        left: -10,
-        right: -10,
+        left: 5,
+        right: 5,
     }
 
     IMAGES_WALKING = [

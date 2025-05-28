@@ -8,9 +8,9 @@ class Character extends MovableObject {
 
     offset = {
         top: 120,
-        bottom: 30,
+        bottom: 15,
         left: 40,
-        right: 30,
+        right: 40,
     }
 
     availableBottles = 0;

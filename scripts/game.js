@@ -190,3 +190,19 @@ function exitFullscreen() {
         document.webkitExitFullscreen();
     }
 }
+
+/**
+ * React to minimizing fullscreen mode with 'esc' key.
+ */
+document.addEventListener('fullscreenchange', () => {
+    const fullScreenBtnIcon = document.getElementById('fullScreenBtnIcon');
+    const isFullscreenNow = !!document.fullscreenElement;
+
+    screenIsFull = isFullscreenNow;
+
+    if (isFullscreenNow) {
+        changeIcon(fullScreenBtnIcon, './assets/icons/minimize.svg');
+    } else {
+        changeIcon(fullScreenBtnIcon, './assets/icons/fullscreen.svg');
+    }
+});

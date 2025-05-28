@@ -10,6 +10,13 @@ class Chicken extends MovableObject {
         '../assets/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
     ];
 
+    offset = {
+        top: 10,
+        bottom: 0,
+        left: 15,
+        right: 15,
+    }
+
     /**
      * Initializes the Chicken object by loading initial image, image set, speed, and starting animation.
      */
