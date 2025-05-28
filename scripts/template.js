@@ -1,7 +1,7 @@
 function startScreenMenuTemplate() {
     return `
         <div class="menu-buttons" id="menuButtons">
-            <button id="muteBtn" class="menu-button" onclick="changeGameSound()"><img id="muteBtnIcon" src="./assets/icons/sound.svg" alt=""></button>
+            <button id="muteBtn" class="menu-button" onclick="changeGameSound(false)"><img id="muteBtnIcon" src="./assets/icons/sound.svg" alt=""></button>
             <button id="instructionsBtn" class="menu-button" onclick="openInstructions()"><img src="./assets/icons/controller.svg" alt=""></button>
             <button id="policyBtn" class="menu-button" onclick="openPolicy()"><img src="./assets/icons/policy.svg" alt=""></button>
             <button id="fullscreenBtn" class="menu-button" onclick="toggleFullScreen()"><img id="fullScreenBtnIcon" src="./assets/icons/fullscreen.svg" alt=""></button>
@@ -53,6 +53,7 @@ function victoryTemplate() {
         <button class="main-menu-btn" onclick="goBackToMainMenu()"><img src="./assets/icons/home.svg"></button>
         <button class="play-again-btn" onclick="restartGame()">PLAY AGAIN</button>
     </div>
+    <span class="win-title">Du hast gewonnen!</span>
 
     `
 };
@@ -65,5 +66,3 @@ function loseTemplate() {
     </div>
     `
 };
-
-

@@ -7,7 +7,7 @@ class Character extends MovableObject {
     speed = 10;
 
     offset = {
-        top: 120,
+        top: 130,
         bottom: 15,
         left: 45,
         right: 45,
@@ -15,10 +15,11 @@ class Character extends MovableObject {
 
     availableBottles = 0;
     collectedCoins = 0;
+    isJumping = false;
 
-    hurtSound = new Audio('../assets/sounds/character/character-hurt.mp3');
-    jumpSound = new Audio('../assets/sounds/character/jump.mp3');
-    snoringSound = new Audio('../assets/sounds/character/snoring.mp3');
+    hurtSound = addSound(new Audio('../assets/sounds/character/character-hurt.mp3'));
+    jumpSound = addSound(new Audio('../assets/sounds/character/jump.mp3'));
+    snoringSound = addSound(new Audio('../assets/sounds/character/snoring.mp3'));
 
 
     IMAGES_STANDING = [
@@ -161,7 +162,7 @@ class Character extends MovableObject {
      * Plays the walking animation if character is moving.
      */
     handleWalkAnimation() {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isJumping) {
             this.playAnimation(this.IMAGES_WALKING)
         }
     }
@@ -194,8 +195,13 @@ class Character extends MovableObject {
      * Plays the jumping animation while the character is airborne.
      */
     handleJumpAnimation() {
-        if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING)
+        let jumpTime = 1100;
+        if (this.isAboveGround() && !this.isJumping) {
+            this.isJumping = true;
+            this.playAnimationOnce(this.IMAGES_JUMPING, jumpTime)
+            setTimeout(() => {
+                this.isJumping = false;
+            }, jumpTime);
         }
     }
 

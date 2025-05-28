@@ -2,11 +2,8 @@ const body = document.querySelector('body')
 const screen = document.getElementById('screen')
 const startScreen = document.getElementById('startScreen');
 const endScreen = document.getElementById('endScreen');
+const ingameMuteBtn = document.getElementById('muteBtnInGame');
 let controlBtns = document.getElementById('controlButtons');
-
-// const muteBtn = document.getElementById('muteBtn');
-// const muteBtnIcon = document.getElementById('muteBtnIcon');
-// const instructionsBtn = document.getElementById('instructionsBtn');
 
 /**
  * Initializes the page.
@@ -14,6 +11,7 @@ let controlBtns = document.getElementById('controlButtons');
  */
 function init() {
     startScreen.innerHTML = startScreenMenuTemplate();
+    screenIsFull ? changeIcon(fullScreenBtnIcon, './assets/icons/minimize.svg') : changeIcon(fullScreenBtnIcon, './assets/icons/fullscreen.svg');
     setMuteIcon();
 };
 
@@ -39,5 +37,14 @@ function openInstructions() {
 function openPolicy() {
     startScreen.innerHTML = policyTemplate();
 };
+
+/**
+ * Disables the click event for the button on keydown "space".
+ */
+ingameMuteBtn.addEventListener("keydown", (event) => {
+    if (event.code === "Space" || event.key === " " || event.keyCode === 32) {
+      event.preventDefault();
+    }
+  });
 
 

@@ -25,7 +25,7 @@ class ThrowableObject extends MovableObject {
 
     availableBottles = 0;
 
-    flyingBottleSound = new Audio('../assets/sounds/flying-bottle.mp3');
+    flyingBottleSound = addSound(new Audio('../assets/sounds/flying-bottle.mp3'));
 
     /**
      * Creates a new throwable object.

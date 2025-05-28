@@ -5,10 +5,10 @@ class Endboss extends MovableObject {
     y = 50;
 
     offset = {
-        top: 60,
+        top: 100,
         bottom: 0,
-        left: 0,
-        right: 0,
+        left: 40,
+        right: 10,
     }
 
     world;
@@ -59,7 +59,7 @@ class Endboss extends MovableObject {
         '../assets/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
-    attackSound = new Audio('../assets/sounds/chicken/rooster-attack.mp3');
+    attackSound = addSound(new Audio('../assets/sounds/chicken/rooster-attack.mp3'));
 
     /**
      * Constructs the endboss object, loads images for all animation states, sets speed and initial position.
@@ -167,10 +167,10 @@ class Endboss extends MovableObject {
     walk() {
         this.walkInterval = setInterval(() => {
             if (this.isDead()) return;
-            if (this.distance() >= 100) {
+            if (this.distance() >= 80) {
                 this.moveRight();
                 this.otherDirection = true;
-            } else if (this.distance() <= -100) {
+            } else if (this.distance() <= -80) {
                 this.moveLeft(false);
             }
         }, 80);

@@ -12,8 +12,8 @@ class World {
     lastThrowTime = 0;
     throwCooldownTime = 800;
 
-    backgroundMusic = new Audio('../assets/sounds/background-music.mp3');
-    chickenAttackSound = new Audio('../assets/sounds/chicken/chicken-attack.mp3');
+    backgroundMusic = addSound(new Audio('../assets/sounds/background-music.mp3'));
+    chickenAttackSound = addSound(new Audio('../assets/sounds/chicken/chicken-attack.mp3'));
 
     /**
      * 
@@ -190,9 +190,8 @@ class World {
      */
     checkCharacterCollision() {
         let now = new Date().getTime()
-        
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy)) && (this.character.lastHit + 500 <= now)) {
+            if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy)) && (this.character.lastHit + 100 <= now)) {
                 this.character.hurtCharacter();
                 this.level.statusBars[0].setPercentage(this.character.life);
                 this.playAttackSound(enemy)
@@ -218,7 +217,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.bottleHitsEnemy(enemy)) {
                 if (enemy instanceof Chicken || enemy instanceof Chick) enemy.kill();
-                if (enemy instanceof Endboss && !enemy.isHurt()) enemy.applyDamage(20); this.level.statusBars[3].setPercentage(enemy.life);
+                if (enemy instanceof Endboss && !enemy.isHurt()) enemy.applyDamage(20), this.level.statusBars[3].setPercentage(enemy.life);
             }
         });
     }

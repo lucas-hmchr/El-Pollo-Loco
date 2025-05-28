@@ -78,7 +78,8 @@
         color: white;
         position: relative;
         padding: 48px;
-        font-size: 32px;
+        font-size: 2em;
+        container-name: instructions;
 
         & .instructions {
             display: flex;
@@ -164,6 +165,16 @@
             & img {
                 height: 48px;
             }
+        }
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .start-screen {
+        padding: 16px;
+
+        & .instructions-container {
+            padding: 24px;
         }
     }
 }

@@ -1,15 +1,15 @@
 class Coin extends MovableObject {
 
     y = 200;
-    width = 75;
-    height = 75;
+    width = 85;
+    height = 85;
     id = Date.now()
 
     offset = {
-        top: 10,
-        bottom: 10,
-        left: 10,
-        right: 10,
+        top: 30,
+        bottom: 30,
+        left: 25,
+        right: 25,
     }
 
     IMAGES = [

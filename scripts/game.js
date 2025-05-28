@@ -6,6 +6,7 @@ const MUTE_KEY = 'gameIsMute';
 let gameIsMute = JSON.parse(localStorage.getItem(MUTE_KEY)) || false;
 let screenIsFull = false;
 let intervalIds = [];
+let sounds = [];
 
 /**
  * Initializes the canvas game.
@@ -20,10 +21,11 @@ function initGame() {
     initLevel();
     world = new World(canvas, keyboard);
     initControlButtons();
+    showIngameMuteButton();
 }
 
 /**
- * 
+ * Initialize the controll buttons and bind actions to them.
  */
 function initControlButtons() {
     showControlButtons();
@@ -94,9 +96,10 @@ function bindBtnsPressEvent() {
 
 /**
  * Toggle the game sound based on a variable.
+ * @param {Boolean} isIngame - True if function gets called from ingame.
  */
-function changeGameSound() {
-    gameIsMute ? loudGame() : muteGame();
+function changeGameSound(isIngame) {
+    gameIsMute ? loudGame(isIngame) : muteGame(isIngame);
 };
 
 /**
@@ -107,9 +110,18 @@ function changeGameSound() {
  */
 function displayWinScreen(win) {
     hideControlButtons();
+    resetWinScreen();
     endScreen.classList.remove('d-none');
-    endScreen.style.backgroundImage = win ? 'url("./assets/9_intro_outro_screens/game_over/game over.png")' : 'url("./assets/9_intro_outro_screens/game_over/oh no you lost!.png")';
+    win ? endScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.59)' : endScreen.style.backgroundImage = 'url("./assets/9_intro_outro_screens/game_over/oh no you lost!.png")';
     endScreen.innerHTML = win ? victoryTemplate() : loseTemplate();
+}
+
+/**
+ * Resets the background of the winScreen so there are no double overlays.
+ */
+function resetWinScreen() {
+    endScreen.style.backgroundColor = ''
+    endScreen.style.backgroundImage = '';
 }
 
 /**
@@ -120,7 +132,6 @@ function displayWinScreen(win) {
 function restartGame() {
     stopGame()
     endScreen.classList.add('d-none');
-    // if (world) world.stop();
     if (world) world.stopBackgroundMusic();
     startGame();
 }
@@ -152,6 +163,7 @@ function goBackToMainMenu() {
     canvas.classList.add('d-none');
     endScreen.classList.add('d-none');
     world.stopBackgroundMusic();
+    muteBtnInGame.classList.add('d-none')
     init();
 }
 
@@ -225,4 +237,11 @@ function setStoppableInterval(fn, time) {
  */
 function stopGame() {
     intervalIds.forEach(clearInterval);
+}
+
+/**
+ * Display the mute button for ingame.
+ */
+function showIngameMuteButton() {
+    muteBtnInGame.classList.remove('d-none')
 }
