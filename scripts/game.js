@@ -210,11 +210,19 @@ document.addEventListener('fullscreenchange', () => {
     }
 });
 
+/**
+ * Sets an interval for a function and pushes the id into an array, so they can be stopped together when necessary.
+ * @param {Function} fn - Function to be executed.
+ * @param {Number} time - Time to set for interval.
+ */
 function setStoppableInterval(fn, time) {
     let id = setInterval(fn, time)
     intervalIds.push(id);
 }
 
+/**
+ * Clears all running intervals that are beeing saved in intervalIds.
+ */
 function stopGame() {
     intervalIds.forEach(clearInterval);
 }
