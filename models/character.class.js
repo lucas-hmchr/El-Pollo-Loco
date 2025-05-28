@@ -9,8 +9,8 @@ class Character extends MovableObject {
     offset = {
         top: 120,
         bottom: 15,
-        left: 40,
-        right: 40,
+        left: 45,
+        right: 45,
     }
 
     availableBottles = 0;
@@ -105,11 +105,11 @@ class Character extends MovableObject {
      * Starts continuous movement and animation updates.
      */
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.handleMovement();
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.handleAnimation();
         }, 150);
     }

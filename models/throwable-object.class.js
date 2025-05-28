@@ -77,17 +77,18 @@ class ThrowableObject extends MovableObject {
     splashAnimation() {
         this.playAnimationOnce(this.IMAGES_SPLASHING, 800)
         this.moveObjBelowCanvas(800);
-
     };
 
     /**
      * Cancles the flying by removing gravity and starts the splash animation.
      */
     stopThrow() {
-        stopSound(this.flyingBottleSound);
-        this.removeGravity();
-        this.splashAnimation();
-        clearInterval(this.throwIntervalId);
-        this.isFlying = false;
+        if (this.isFlying) {
+            stopSound(this.flyingBottleSound);
+            this.removeGravity();
+            this.splashAnimation();
+            clearInterval(this.throwIntervalId);
+            this.isFlying = false;
+        }
     }
 }

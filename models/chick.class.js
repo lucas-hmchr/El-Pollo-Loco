@@ -8,8 +8,8 @@ class Chick extends MovableObject {
     offset = {
         top: 10,
         bottom: 0,
-        left: 5,
-        right: 5,
+        left: 15,
+        right: 15,
     }
 
     IMAGES_WALKING = [
@@ -36,11 +36,11 @@ class Chick extends MovableObject {
         if (this.isDead()) {
 
         } else {
-            setInterval(() => {
+            setStoppableInterval(() => {
                 this.handleMovement();
             }, 1000 / 60)
 
-            setInterval(() => {
+            setStoppableInterval(() => {
                 this.handleAnimation();
             }, 200)
         }

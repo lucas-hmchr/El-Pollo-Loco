@@ -1,5 +1,4 @@
 let level1;
-initLevel();
 
 function initLevel() {
     level1 = new Level(

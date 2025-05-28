@@ -25,7 +25,7 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.animationFrameId = null;
-        initLevel();
+
 
         this.setWorld();
         this.draw();
@@ -140,7 +140,7 @@ class World {
      * Call several functions that check states of the game.
      */
     run() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkState();
@@ -165,11 +165,11 @@ class World {
      * - Movementstop of the character gets reseted.
      */
     throwObject() {
-            this.character.availableBottles -= 1;
-            this.level.statusBars[2].setPercentage(this.level.statusBars[2].percentage -= 10);
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
-            this.throwableObjects.push(bottle);
-            this.character.resetMovementStop();
+        this.character.availableBottles -= 1;
+        this.level.statusBars[2].setPercentage(this.level.statusBars[2].percentage -= 10);
+        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
+        this.throwableObjects.push(bottle);
+        this.character.resetMovementStop();
     }
 
     /**
@@ -189,8 +189,10 @@ class World {
      * - Play a sound.
      */
     checkCharacterCollision() {
+        let now = new Date().getTime()
+        
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy))) {
+            if (this.character.isColliding(enemy) && !(this.character.inPositionToJumpKill(enemy)) && (this.character.lastHit + 500 <= now)) {
                 this.character.hurtCharacter();
                 this.level.statusBars[0].setPercentage(this.character.life);
                 this.playAttackSound(enemy)
@@ -289,7 +291,7 @@ class World {
      * Check the position of the character to start the moving of the endboss.
      */
     checkEndbossStart() {
-        if (this.character.x >= 1500 && !this.endboss.isWalking) this.endboss.startWalking();
+        if (this.character.x >= 1500 && this.endboss.walkNotStarted) this.endboss.startWalking();
     }
 
     /**

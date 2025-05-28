@@ -13,8 +13,8 @@ class Chicken extends MovableObject {
     offset = {
         top: 10,
         bottom: 0,
-        left: 15,
-        right: 15,
+        left: 20,
+        right: 20,
     }
 
     /**
@@ -35,11 +35,11 @@ class Chicken extends MovableObject {
         if (this.isDead()) {
 
         } else {
-            setInterval(() => {
+            setStoppableInterval(() => {
                 this.handleMovement();
             }, 1000 / 60)
 
-            setInterval(() => {
+            setStoppableInterval(() => {
                 this.handleAnimation();
             }, 200)
         }

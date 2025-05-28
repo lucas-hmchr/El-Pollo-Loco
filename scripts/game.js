@@ -5,6 +5,7 @@ let firstRoundOver = false;
 const MUTE_KEY = 'gameIsMute';
 let gameIsMute = JSON.parse(localStorage.getItem(MUTE_KEY)) || false;
 let screenIsFull = false;
+let intervalIds = [];
 
 /**
  * Initializes the canvas game.
@@ -16,6 +17,7 @@ let screenIsFull = false;
 function initGame() {
     if (!canvas) canvas = document.getElementById('canvas');
     canvas.classList.remove('d-none');
+    initLevel();
     world = new World(canvas, keyboard);
     initControlButtons();
 }
@@ -116,6 +118,7 @@ function displayWinScreen(win) {
  * - Start the game.
  */
 function restartGame() {
+    stopGame()
     endScreen.classList.add('d-none');
     // if (world) world.stop();
     if (world) world.stopBackgroundMusic();
@@ -206,3 +209,12 @@ document.addEventListener('fullscreenchange', () => {
         changeIcon(fullScreenBtnIcon, './assets/icons/fullscreen.svg');
     }
 });
+
+function setStoppableInterval(fn, time) {
+    let id = setInterval(fn, time)
+    intervalIds.push(id);
+}
+
+function stopGame() {
+    intervalIds.forEach(clearInterval);
+}

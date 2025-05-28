@@ -24,7 +24,7 @@ class Cloud extends MovableObject{
      * Move the cloud to the left slowly.
      */
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.moveLeft(false)
         }, 10)
 

@@ -23,7 +23,7 @@ class MovableObject extends DrawableObject {
     }
 
     life = 100;
-    lastHit;
+    lastHit = 0;
     deathDate;
     gravityIntervalId;
     movementStop;

@@ -14,7 +14,8 @@ class Endboss extends MovableObject {
     world;
 
     isAttacking;
-    isWalking;
+    isWalking = false;
+    walkNotStarted = true;
     walkInterval;
 
     IMAGES_WALK = [
@@ -78,7 +79,7 @@ class Endboss extends MovableObject {
      * Starts the animation loop for the endboss, checking animation states regularly.
      */
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.handleAnimation();
         }, 200);
     }
@@ -145,6 +146,7 @@ class Endboss extends MovableObject {
      * Starts walking behavior after a delay to allow idle state first.
      */
     startWalking() {
+        this.walkNotStarted = false;
         setTimeout(() => {
             this.isWalking = true;
             this.walk();
@@ -171,6 +173,6 @@ class Endboss extends MovableObject {
             } else if (this.distance() <= -100) {
                 this.moveLeft(false);
             }
-        }, 800);
+        }, 80);
     }
 }
