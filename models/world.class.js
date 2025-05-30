@@ -26,7 +26,6 @@ class World {
         this.keyboard = keyboard;
         this.animationFrameId = null;
 
-
         this.setWorld();
         this.draw();
         this.run();
@@ -34,32 +33,58 @@ class World {
     }
 
     /**
-     * Draw the necessary images on the canvas.
+     * Draws the necessary images on the canvas.
      */
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.clearCanvas();
+        this.drawBackgroundAndClouds();
+        this.drawStatusBars();
+        this.drawGameObjects();
+        this.scheduleNextFrame();
+    }
 
-        this.ctx.translate(this.camera_x, 0)
+    /**
+     * Clears the canvas.
+     */
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 
-        this.addObjectsToMap(this.level.backgroundObjects)
-        this.addObjectsToMap(this.level.clouds)
+    /**
+     * Draws the background images and the clouds.
+     */
+    drawBackgroundAndClouds() {
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+    }
 
-        this.ctx.translate(-this.camera_x, 0)
-        this.addObjectsToMap(this.level.statusBars)
-        this.ctx.translate(this.camera_x, 0)
+    /**
+     * Draws all the statusbars.
+     */
+    drawStatusBars() {
+        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectsToMap(this.level.statusBars);
+        this.ctx.translate(this.camera_x, 0);
+    }
 
-        this.addObjectsToMap(this.level.enemies)
-        this.addObjectsToMap(this.throwableObjects)
-        this.addObjectsToMap(this.level.bottles)
-        this.addObjectsToMap(this.level.coins)
-        this.addToMap(this.character)
+    /**
+     * Draws all game objects.
+     */
+    drawGameObjects() {
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.level.coins);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
+    }
 
-        this.ctx.translate(-this.camera_x, 0)
-
-        let self = this;
-        this.animationFrameId = requestAnimationFrame(function () {
-            self.draw();
-        });
+    /**
+     * Schedules the next frame to draw.
+     */
+    scheduleNextFrame() {
+        this.animationFrameId = requestAnimationFrame(() => this.draw());
     }
 
     /**

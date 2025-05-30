@@ -58,8 +58,8 @@ class Character extends MovableObject {
     ];
 
     IMAGES_JUMPING = [
-        '../assets/2_character_pepe/3_jump/J-31.png',
-        '../assets/2_character_pepe/3_jump/J-32.png',
+        // '../assets/2_character_pepe/3_jump/J-31.png',
+        // '../assets/2_character_pepe/3_jump/J-32.png',
         '../assets/2_character_pepe/3_jump/J-33.png',
         '../assets/2_character_pepe/3_jump/J-34.png',
         '../assets/2_character_pepe/3_jump/J-35.png',
@@ -147,13 +147,23 @@ class Character extends MovableObject {
     }
 
     /**
+     * Make object jump.
+     */
+    jump() {
+        if (!this.isAboveGround()) {
+            this.speedY = 30;
+            this.isJumping = true;
+        }
+    }
+
+    /**
      * Executes all animation types depending on character state.
      */
     handleAnimation() {
         this.handleStandingAnimation();
         this.handleSleepingAnimation();
         this.handleWalkAnimation();
-        this.handleJumpAnimation()
+        this.handleJumpAnimation();
         this.handleHurtAnimation();
         this.handleDeathAnimation();
     }
@@ -195,13 +205,9 @@ class Character extends MovableObject {
      * Plays the jumping animation while the character is airborne.
      */
     handleJumpAnimation() {
-        let jumpTime = 1100;
-        if (this.isAboveGround() && !this.isJumping) {
-            this.isJumping = true;
-            this.playAnimationOnce(this.IMAGES_JUMPING, jumpTime)
-            setTimeout(() => {
-                this.isJumping = false;
-            }, jumpTime);
+        if (this.isAboveGround() && this.isJumping) {
+            this.isJumping = false;
+            this.playAnimationOnce(this.IMAGES_JUMPING, 1100)
         }
     }
 

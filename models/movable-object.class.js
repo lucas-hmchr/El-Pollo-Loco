@@ -111,13 +111,6 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * Make object jump.
-     */
-    jump() {
-        this.speedY = 30;
-    }
-
-    /**
      * Check if object collides with another object.
      * @param {MovableObject} mo - Other movable object. 
      * @returns {Boolean} - True if collision gets detected.
