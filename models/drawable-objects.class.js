@@ -39,21 +39,6 @@ class DrawableObject {
     }
 
     /**
-     * Draws an (invisible) frame around the object for debugging or collision visualization.
-     * Only applies to specific object types.
-     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
-     */
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Bottle || this instanceof Chick ) {
-            ctx.beginPath();
-            ctx.lineWidth = '1';
-            ctx.strokeStyle = 'transparent';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
-
-    /**
      * Checks whether the current object is touching a collectable object.
      * @param {Object} obj - The collectable object to check collision with.
      * @returns {Boolean} - True if a collision is detected, otherwise false.
