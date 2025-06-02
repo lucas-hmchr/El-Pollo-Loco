@@ -16,6 +16,8 @@ class Character extends MovableObject {
     availableBottles = 0;
     collectedCoins = 0;
     isJumping = false;
+    canJump = true;
+    isPlayingJumpAnimation = false;
 
     hurtSound = addSound(new Audio('../assets/sounds/character/character-hurt.mp3'));
     jumpSound = addSound(new Audio('../assets/sounds/character/jump.mp3'));
@@ -58,8 +60,6 @@ class Character extends MovableObject {
     ];
 
     IMAGES_JUMPING = [
-        // '../assets/2_character_pepe/3_jump/J-31.png',
-        // '../assets/2_character_pepe/3_jump/J-32.png',
         '../assets/2_character_pepe/3_jump/J-33.png',
         '../assets/2_character_pepe/3_jump/J-34.png',
         '../assets/2_character_pepe/3_jump/J-35.png',
@@ -121,6 +121,7 @@ class Character extends MovableObject {
     handleMovement() {
         this.handleMoveSideways();
         this.handleJump();
+        this.checkLanding();
     }
 
     /**
@@ -143,16 +144,33 @@ class Character extends MovableObject {
      * Makes the character jump if the jump key is pressed.
      */
     handleJump() {
-        if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead()) this.jump(), this.handleJumpSound(), this.resetMovementStop();
+        if (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead() && !this.isJumping) {
+            this.jump();
+            this.handleJumpSound();
+            this.resetMovementStop();
+        }
     }
 
     /**
-     * Make object jump.
+     * Makes the object jump and start the animation.
      */
     jump() {
         if (!this.isAboveGround()) {
-            this.speedY = 30;
+            this.canJump = false;
             this.isJumping = true;
+            this.speedY = 30;
+            this.handleJumpAnimation();
+        }
+    }
+
+    /**
+     * Checks if the character has finished his jump and adjusts variables.
+     */
+    checkLanding() {
+        if (!this.isAboveGround() && this.speedY <= 0) {
+        } else if (this.isAboveGround() && this.speedY === 0) {
+            this.isJumping = false;
+            this.canJump = true;
         }
     }
 
@@ -163,7 +181,6 @@ class Character extends MovableObject {
         this.handleStandingAnimation();
         this.handleSleepingAnimation();
         this.handleWalkAnimation();
-        this.handleJumpAnimation();
         this.handleHurtAnimation();
         this.handleDeathAnimation();
     }
@@ -172,7 +189,7 @@ class Character extends MovableObject {
      * Plays the walking animation if character is moving.
      */
     handleWalkAnimation() {
-        if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isJumping) {
+        if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isJumping && !this.isAboveGround()) {
             this.playAnimation(this.IMAGES_WALKING)
         }
     }
@@ -181,7 +198,7 @@ class Character extends MovableObject {
      * Plays the standing animation when no movement is detected.
      */
     handleStandingAnimation() {
-        if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+        if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
             this.setMovementStop()
             this.playAnimation(this.IMAGES_STANDING);
         }
@@ -204,10 +221,12 @@ class Character extends MovableObject {
     /**
      * Plays the jumping animation while the character is airborne.
      */
-    handleJumpAnimation() {
-        if (this.isAboveGround() && this.isJumping) {
-            this.isJumping = false;
-            this.playAnimationOnce(this.IMAGES_JUMPING, 1100)
+    async handleJumpAnimation() {
+        if(this.isPlayingJumpAnimation) return;
+        if (this.isJumping) {
+            this.isPlayingJumpAnimation = true;
+            this.playAnimationOnce(this.IMAGES_JUMPING, 700);
+            this.isPlayingJumpAnimation = false;
         }
     }
 
